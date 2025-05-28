@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2EHC Treinamentos - Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #003366;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 28px;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: url('https://th.bing.com/th/id/R.b1bc9c59998debded8c242f8769ebef0?rik=FQei2ISE5Ize9g&pid=ImgRaw&r=0') no-repeat center center/cover;
+      height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .hero-content {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    .carousel-wrapper {
+      background: #fff;
+      padding: 40px 0;
+    }
+
+    .carousel-outer {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .carousel {
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      padding: 0 40px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      width: 150px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-item:hover {
+      background-color: #002244;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      background-color: rgba(0, 51, 102, 0.8);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .arrow-left {
+      left: 0;
+    }
+
+    .arrow-right {
+      right: 0;
+    }
+
+    .cursos-section {
+      padding: 60px 40px;
+      background-image: url('https://jcconcursos.com.br/media/_versions/noticia/tecnico-seguranca-trabalho_widelg.jpg'); /* EDITÁVEL */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      color: #fff;
+    }
+
+    .cursos-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    .cursos-section h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cursos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .curso-card {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .curso-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .curso-card .icon {
+  font-size: 20px;
+  color: #003366;
+  position: absolute;
+  top: 80%;
+  right: 40px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    .curso-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .curso-card h3 {
+      margin-bottom: 10px;
+      color: #003366;
+    }
+
+    .curso-card p {
+      font-size: 14px;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    footer {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+  <div class="logo-container">
+    <img src="logo2ehc.png" alt="Logo 2EHC" class="logo" style="width: 50px; height: 50px;">
+    <h1>2EHC Treinamentos</h1>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#cursos">Cursos</a>
+    <a href="#">Financeiro</a>
+    <a href="#">Acompanhamento</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Capacitação de verdade para seu crescimento</h2>
+      <p>Transforme seu futuro com nossos cursos certificados e acompanhamento personalizado.</p>
+    </div>
+  </section>
+
+  <!-- Carrossel de Botões -->
+  <section class="carousel-wrapper">
+    <div class="carousel-outer">
+      <button class="arrow arrow-left" onclick="scrollCarousel(-1)">‹</button>
+      <div class="carousel" id="carouselContainer">
+        <div class="carousel-container">
+          <div class="carousel-item">NR 10</div>
+          <div class="carousel-item">NR 11</div>
+          <div class="carousel-item">NR 12</div>
+          <div class="carousel-item">NR 18</div>
+          <div class="carousel-item">NR 33</div>
+          <div class="carousel-item">NR 35</div>
+          <div class="carousel-item">NR 36</div>
+          <div class="carousel-item">NR 20</div>
+        </div>
+      </div>
+      <button class="arrow arrow-right" onclick="scrollCarousel(1)">›</button>
+    </div>
+  </section>
+
+  <!-- Conheça nossos cursos -->
+  <section class="cursos-section" id="cursos">
+    <h2>Conheça nossos cursos</h2>
+    <div class="cursos-grid">
+      <div class="curso-card">
+        <div class="icon">+</div>
+        <img src="https://gaseservi.com.br/ead/wp-content/uploads/2021/08/nr10.png" alt="Curso NR 10">
+        <h3>Curso NR 17</h3>
+        <p>Voltado à segurança em instalações elétricas, aborda normas e procedimentos essenciais para prevenção de acidentes.</p>
+      </div>
+      <div class="curso-card">
+        <div class="icon">+</div>
+        <img src="https://www.lelisambiental.com.br/blog/wp-content/uploads/2021/03/AdobeStock_212615637-scaled.jpg" alt="Curso NR 35">
+        <h3>Curso NR 35</h3>
+        <p>Capacita trabalhadores para atuar com segurança em atividades realizadas em altura, respeitando os requisitos legais.</p>
+      </div>
+      <div class="curso-card">
+        <div class="icon">+</div>
+        <img src="https://www.apexwarehousesystems.com/wp-content/uploads/2024/08/Understanding-OSHA-First-Aid-Requirements-for-Warehouses-scaled-e1723152725444-1024x512.jpeg" alt="Primeiros Socorros">
+        <h3>Primeiros Socorros</h3>
+        <p>Ensina técnicas imediatas para preservar a vida em situações de emergência até a chegada do socorro especializado.</p>
+      </div>
+      <div class="curso-card">
+        <div class="icon">+</div>
+        <img src="https://th.bing.com/th/id/R.072f0f70e850d16aaa43603e043181a6?rik=v21RWdGgHAPvXA&riu=http%3a%2f%2fconstruindodecor.com.br%2fwp-content%2fuploads%2f2020%2f04%2fBrigada-de-Incendio-2.jpg&ehk=0BM9npIkay65iyGYk7nqBG8N%2b1fL1rLG32vbWzEcTL8%3d&risl=&pid=ImgRaw&r=0" alt="Brigada de Incêndio">
+        <h3>Brigada de Incêndio</h3>
+        <p>Treinamento para atuação rápida em situações de incêndio, com foco em evacuação, combate inicial e prevenção.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 2EHC Treinamentos. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const container = document.getElementById('carouselContainer');
+    const scrollAmount = 180;
+
+    function scrollCarousel(direction) {
+      container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+
+    function startAutoScroll() {
+      setInterval(() => {
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollCarousel(1);
+        }
+      }, 3000);
+    }
+
+    window.onload = startAutoScroll;
+  </script>
+
+</body>
+</html>

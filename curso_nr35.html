@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Curso NR17 - Vídeos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #003366;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    video, iframe {
+  width: 100%;
+  height: 400px; /* Ajuste a altura conforme o desejado */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: none;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto;
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Curso NR35 - Módulos</h1>
+
+  <h2>Módulo 1 - Vídeo Local</h2>
+  <video controls>
+    <source src="videos/nr17-modulo1.mp4" type="video/mp4">
+    Seu navegador não suporta o vídeo.
+  </video>
+
+  <h2>Módulo 2 - YouTube</h2>
+  <iframe src="https://www.youtube.com/embed/BkMRZ7glw14" frameborder="0" allowfullscreen></iframe>
+
+  <button onclick="window.history.back()">Voltar</button>
+
+</body>
+</html>
