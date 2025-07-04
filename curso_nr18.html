@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Curso NR-18 - Construção Civil</title>
+  <style>
+    @font-face {
+      font-family: 'Organetto';
+      src: url('public/fonts/Fontspring-DEMO-organetto-regular.otf') format('opentype');
+      font-weight: normal;
+    }
+
+    @font-face {
+      font-family: 'Organetto';
+      src: url('public/fonts/Fontspring-DEMO-organetto-light.otf') format('opentype');
+      font-weight: 300;
+    }
+
+    body {
+      font-family: 'Organetto', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+      color: #1e293b;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+    }
+
+    h1 {
+      font-family: 'Organetto', sans-serif;
+      font-weight: 300;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      opacity: 0.9;
+      font-size: 18px;
+    }
+
+    .modulo {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #dc2626;
+    }
+
+    .modulo h2 {
+      color: #1e3a8a;
+      font-family: 'Organetto', sans-serif;
+      font-weight: normal;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    video, iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-description {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border-left: 4px solid #1e3a8a;
+    }
+
+    .video-description h3 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      font-family: 'Organetto', sans-serif;
+    }
+
+    .progress-section {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      background: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #1e3a8a, #dc2626);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    .back-btn:hover {
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .certificado-section {
+      background: #f0fdf4;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      border: 2px solid #16a34a;
+    }
+
+    .certificado-section h3 {
+      color: #16a34a;
+      margin-bottom: 15px;
+      font-family: 'Organetto', sans-serif;
+    }
+
+    .gerar-certificado {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      font-size: 18px;
+      padding: 15px 30px;
+    }
+
+    .gerar-certificado:hover {
+      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Curso NR-18</h1>
+    <div class="subtitle">Condições e Meio Ambiente de Trabalho na Indústria da Construção</div>
+  </div>
+
+  <div class="progress-section">
+    <h3>Progresso do Curso</h3>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    <p id="progressText">0% concluído</p>
+  </div>
+
+  <div class="modulo">
+    <h2>Módulo 1 - Introdução à NR-18</h2>
+    <div class="video-description">
+      <h3>Fundamentos da Segurança na Construção Civil</h3>
+      <p>Neste módulo você aprenderá os conceitos básicos da NR-18, sua importância e aplicação no canteiro de obras.</p>
+    </div>
+    <video controls id="video1" onended="marcarConcluido(1)">
+      <source src="nr17-modulo1.mp4" type="video/mp4">
+      Seu navegador não suporta o vídeo.
+    </video>
+  </div>
+
+  <div class="modulo">
+    <h2>Módulo 2 - EPIs e EPCs na Construção</h2>
+    <div class="video-description">
+      <h3>Equipamentos de Proteção Individual e Coletiva</h3>
+      <p>Aprenda sobre os equipamentos essenciais para a segurança no canteiro de obras e como utilizá-los corretamente.</p>
+    </div>
+    <iframe id="video2" src="https://www.youtube.com/embed/BkMRZ7glw14" frameborder="0" allowfullscreen onload="setupYouTubeTracking(2)"></iframe>
+  </div>
+
+  <div class="modulo">
+    <h2>Módulo 3 - Prevenção de Acidentes</h2>
+    <div class="video-description">
+      <h3>Identificação e Prevenção de Riscos</h3>
+      <p>Conheça os principais riscos na construção civil e as medidas preventivas para evitar acidentes.</p>
+    </div>
+    <iframe id="video3" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen onload="setupYouTubeTracking(3)"></iframe>
+  </div>
+
+  <div class="certificado-section" id="certificadoSection" style="display: none;">
+    <h3>🎉 Parabéns! Você concluiu o curso!</h3>
+    <p>Agora você pode gerar seu certificado de conclusão.</p>
+    <button class="gerar-certificado" onclick="gerarCertificado()">
+      Gerar Certificado
+    </button>
+  </div>
+
+  <div class="controls">
+    <button onclick="window.history.back()" class="back-btn">← Voltar</button>
+    <button onclick="marcarConcluido('manual')">Marcar como Concluído</button>
+  </div>
+
+  <script>
+    let modulosConcluidos = JSON.parse(localStorage.getItem('nr18_progress')) || [];
+    let totalModulos = 3;
+
+    function atualizarProgresso() {
+      const progresso = (modulosConcluidos.length / totalModulos) * 100;
+      document.getElementById('progressBar').style.width = progresso + '%';
+      document.getElementById('progressText').textContent = Math.round(progresso) + '% concluído';
+      
+      if (progresso === 100) {
+        document.getElementById('certificadoSection').style.display = 'block';
+      }
+    }
+
+    function marcarConcluido(modulo) {
+      if (!modulosConcluidos.includes(modulo)) {
+        modulosConcluidos.push(modulo);
+        localStorage.setItem('nr18_progress', JSON.stringify(modulosConcluidos));
+        atualizarProgresso();
+        
+        if (modulo !== 'manual') {
+          alert(`Módulo ${modulo} concluído!`);
+        }
+      }
+    }
+
+    function setupYouTubeTracking(modulo) {
+      // Simular conclusão após 30 segundos para vídeos do YouTube
+      setTimeout(() => {
+        marcarConcluido(modulo);
+      }, 30000);
+    }
+
+    function gerarCertificado() {
+      const alunoData = JSON.parse(localStorage.getItem('alunoLogado'));
+      
+      if (alunoData) {
+        const certificado = {
+          id: Date.now().toString(),
+          curso: 'NR-18 - Construção Civil',
+          aluno: alunoData.nome,
+          dataEmissao: new Date().toISOString(),
+          cargaHoraria: '16 horas'
+        };
+        
+        // Adicionar certificado aos dados do aluno
+        if (!alunoData.certificados) {
+          alunoData.certificados = [];
+        }
+        alunoData.certificados.push(certificado);
+        localStorage.setItem('alunoLogado', JSON.stringify(alunoData));
+        
+        // Atualizar lista de alunos
+        const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+        const alunoIndex = alunos.findIndex(a => a.id === alunoData.id);
+        if (alunoIndex !== -1) {
+          alunos[alunoIndex] = alunoData;
+          localStorage.setItem('alunos', JSON.stringify(alunos));
+        }
+        
+        alert('Certificado gerado com sucesso! Você pode baixá-lo na sua área do aluno.');
+      } else {
+        alert('Erro: Dados do aluno não encontrados. Faça login novamente.');
+      }
+    }
+
+    // Inicializar progresso
+    atualizarProgresso();
+  </script>
+
+</body>
+</html>

@@ -6,6 +6,18 @@
   <title>2EHC Treinamentos - Capacitação Profissional</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Organetto';
+      src: url('public/fonts/Fontspring-DEMO-organetto-regular.otf') format('opentype');
+      font-weight: normal;
+    }
+
+    @font-face {
+      font-family: 'Organetto';
+      src: url('public/fonts/Fontspring-DEMO-organetto-light.otf') format('opentype');
+      font-weight: 300;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -13,7 +25,7 @@
     }
 
     body {
-      font-family: 'Inter', Arial, sans-serif;
+      font-family: 'Organetto', 'Inter', Arial, sans-serif;
       background-color: #f8fafc;
       color: #1e293b;
       line-height: 1.6;
@@ -58,7 +70,8 @@
 
     .logo-container h1 {
       font-size: 32px;
-      font-weight: 700;
+      font-weight: 300;
+      font-family: 'Organetto', sans-serif;
       background: linear-gradient(45deg, #ffffff, #fecaca);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -126,7 +139,8 @@
     .hero h2 {
       font-size: 48px;
       margin-bottom: 20px;
-      font-weight: 700;
+      font-weight: 300;
+      font-family: 'Organetto', sans-serif;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
@@ -146,7 +160,8 @@
       font-size: 42px;
       margin-bottom: 50px;
       color: #1e3a8a;
-      font-weight: 700;
+      font-weight: 300;
+      font-family: 'Organetto', sans-serif;
       position: relative;
     }
 
@@ -197,6 +212,19 @@
       background: linear-gradient(90deg, #1e3a8a, #dc2626);
     }
 
+    .curso-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .curso-card:hover .curso-image {
+      transform: scale(1.05);
+    }
+
     .curso-header {
       display: flex;
       justify-content: space-between;
@@ -207,7 +235,8 @@
     .curso-info h3 {
       font-size: 24px;
       color: #1e3a8a;
-      font-weight: 600;
+      font-weight: normal;
+      font-family: 'Organetto', sans-serif;
       margin-bottom: 5px;
     }
 
@@ -262,6 +291,7 @@
       color: #1e3a8a;
       margin-bottom: 15px;
       font-size: 18px;
+      font-family: 'Organetto', sans-serif;
     }
 
     .curso-details p {
@@ -281,7 +311,8 @@
 
     .price {
       font-size: 28px;
-      font-weight: 700;
+      font-weight: normal;
+      font-family: 'Organetto', sans-serif;
       color: #dc2626;
     }
 
@@ -301,6 +332,49 @@
       background: linear-gradient(135deg, #b91c1c, #991b1b);
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .auth-section {
+      background: white;
+      padding: 60px 40px;
+      text-align: center;
+      margin: 60px 0;
+    }
+
+    .auth-section h2 {
+      font-size: 36px;
+      color: #1e3a8a;
+      margin-bottom: 30px;
+      font-family: 'Organetto', sans-serif;
+      font-weight: 300;
+    }
+
+    .auth-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .auth-btn {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+      text-decoration: none;
+      padding: 15px 40px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
+    }
+
+    .auth-btn.secondary {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
     }
 
     footer {
@@ -370,6 +444,11 @@
         flex-wrap: wrap;
         justify-content: center;
       }
+
+      .auth-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -394,11 +473,20 @@
     </div>
   </section>
 
+  <section class="auth-section">
+    <h2>Acesse sua Conta ou Cadastre-se</h2>
+    <div class="auth-buttons">
+      <a href="cadastro-aluno.html" class="auth-btn">Cadastro de Aluno</a>
+      <a href="cadastro-empresa.html" class="auth-btn secondary">Cadastro de Empresa</a>
+    </div>
+  </section>
+
   <section class="cursos-section" id="cursos">
     <h2>Nossos Cursos Disponíveis</h2>
     <div class="cursos-grid">
       
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg" alt="NR-18 Construção Civil" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-18</h3>
@@ -422,6 +510,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/906982/pexels-photo-906982.jpeg" alt="NR-34 Naval" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-34</h3>
@@ -440,11 +529,12 @@
         </div>
         <div class="price-section">
           <div class="price">R$ 180,00</div>
-          <button class="buy-btn" onclick="addToCart('NR-34', 180)">Compre Agora</button>
+          <button class="buy-btn" onclick="addToCart('NR-34 (16h)', 180)">Compre Agora</button>
         </div>
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/906982/pexels-photo-906982.jpeg" alt="NR-34 Naval Compacto" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-34</h3>
@@ -468,6 +558,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg" alt="NR-5 CIPA" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-5</h3>
@@ -491,6 +582,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg" alt="NR-5 CIPA Básico" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-5</h3>
@@ -514,6 +606,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg" alt="NR-1 Integração" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-1</h3>
@@ -537,6 +630,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg" alt="NR-6 EPI" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-6</h3>
@@ -560,6 +654,7 @@
       </div>
 
       <div class="curso-card">
+        <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg" alt="NR-11 Transporte" class="curso-image">
         <div class="curso-header">
           <div class="curso-info">
             <h3>NR-11</h3>
