@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Empresa - 2EHC Treinamentos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      color: white;
+      padding: 20px 40px;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .nav-btn:hover {
+      background: rgba(220, 38, 38, 0.3);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 10px;
+    }
+
+    .stat-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 16px;
+    }
+
+    .course-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .course-item {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #1e3a8a;
+    }
+
+    .course-name {
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 5px;
+    }
+
+    .course-price {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1e40af, #b91c1c);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f8fafc;
+      color: #1e3a8a;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      border-color: #1e3a8a;
+      background: #f1f5f9;
+    }
+
+    .recent-activity {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-info {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 5px;
+    }
+
+    .activity-date {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .activity-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="logo2ehc.png" alt="Logo 2EHC" class="logo">
+        <h1>Dashboard Empresa</h1>
+      </div>
+      <div class="nav-buttons">
+        <a href="cadastro-alunos.html" class="nav-btn">Gerenciar Alunos</a>
+        <button class="nav-btn" onclick="logout()">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="dashboard-grid">
+      <div class="card">
+        <h3>Estatísticas</h3>
+        <div class="stat-number" id="totalAlunos">0</div>
+        <div class="stat-label">Alunos Cadastrados</div>
+      </div>
+
+      <div class="card">
+        <h3>Investimento Total</h3>
+        <div class="stat-number" id="totalInvestido">R$ 0</div>
+        <div class="stat-label">Em Treinamentos</div>
+      </div>
+
+      <div class="card">
+        <h3>Cursos Adquiridos</h3>
+        <div class="course-list" id="cursosAdquiridos"></div>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <h3>Atividades Recentes</h3>
+      <div id="atividadesRecentes"></div>
+    </div>
+
+    <div class="card" style="margin-top: 30px;">
+      <h3>Ações Rápidas</h3>
+      <div class="action-buttons">
+        <a href="cadastro-alunos.html" class="btn btn-primary">Cadastrar Novo Aluno</a>
+        <a href="index.html" class="btn btn-secondary">Ver Mais Cursos</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let empresaData = JSON.parse(localStorage.getItem('empresaLogada'));
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+    if (!empresaData) {
+      window.location.href = 'login-empresa.html';
+    }
+
+    function initializeDashboard() {
+      // Filtrar alunos da empresa
+      const alunosEmpresa = alunos.filter(aluno => aluno.empresaId === empresaData.emailResponsavel);
+      
+      // Atualizar estatísticas
+      document.getElementById('totalAlunos').textContent = alunosEmpresa.length;
+      document.getElementById('totalInvestido').textContent = `R$ ${empresaData.pedido.total.toFixed(2)}`;
+      
+      // Mostrar cursos adquiridos
+      const cursosContainer = document.getElementById('cursosAdquiridos');
+      cursosContainer.innerHTML = empresaData.pedido.items.map(item => `
+        <div class="course-item">
+          <div class="course-name">${item.name}</div>
+          <div class="course-price">R$ ${item.price.toFixed(2)} (${item.quantity}x)</div>
+        </div>
+      `).join('');
+      
+      // Mostrar atividades recentes
+      renderAtividadesRecentes(alunosEmpresa);
+    }
+
+    function renderAtividadesRecentes(alunosEmpresa) {
+      const container = document.getElementById('atividadesRecentes');
+      
+      if (alunosEmpresa.length === 0) {
+        container.innerHTML = `
+          <div class="activity-item">
+            <div class="activity-info">
+              <div class="activity-title">Nenhuma atividade ainda</div>
+              <div class="activity-date">Cadastre alunos para começar</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Ordenar por data de cadastro (mais recentes primeiro)
+      const atividadesRecentes = alunosEmpresa
+        .sort((a, b) => new Date(b.dataCadastro) - new Date(a.dataCadastro))
+        .slice(0, 5);
+
+      container.innerHTML = atividadesRecentes.map(aluno => `
+        <div class="activity-item">
+          <div class="activity-info">
+            <div class="activity-title">Aluno ${aluno.nomeAluno} cadastrado</div>
+            <div class="activity-date">${new Date(aluno.dataCadastro).toLocaleDateString('pt-BR')}</div>
+          </div>
+          <div class="activity-status status-success">Ativo</div>
+        </div>
+      `).join('');
+
+      // Adicionar atividade da compra
+      const compraActivity = `
+        <div class="activity-item">
+          <div class="activity-info">
+            <div class="activity-title">Compra realizada - ${empresaData.pedido.items.length} curso(s)</div>
+            <div class="activity-date">${new Date(empresaData.dataCadastro).toLocaleDateString('pt-BR')}</div>
+          </div>
+          <div class="activity-status status-success">Concluída</div>
+        </div>
+      `;
+      
+      container.innerHTML = compraActivity + container.innerHTML;
+    }
+
+    window.logout = function() {
+      localStorage.removeItem('empresaLogada');
+      window.location.href = 'index.html';
+    };
+
+    // Inicializar dashboard
+    initializeDashboard();
+  </script>
+
+</body>
+</html>

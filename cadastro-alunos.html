@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Alunos - 2EHC Treinamentos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      color: white;
+      padding: 20px 40px;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(220, 38, 38, 0.3);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .welcome-section {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-section h2 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    .purchased-courses {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 4px solid #dc2626;
+    }
+
+    .purchased-courses h4 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+    }
+
+    .course-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .course-tag {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-section {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      color: #1e3a8a;
+      margin-bottom: 25px;
+      font-size: 24px;
+      font-weight: 600;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      color: #374151;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input, select {
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #1e3a8a;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+
+    .course-selection {
+      margin-top: 20px;
+    }
+
+    .course-checkboxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .checkbox-group:hover {
+      border-color: #1e3a8a;
+      background: #f8fafc;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
+
+    .add-btn {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .add-btn:hover {
+      background: linear-gradient(135deg, #b91c1c, #991b1b);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .students-list {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .students-list h3 {
+      color: #1e3a8a;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    .student-card {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-left: 4px solid #1e3a8a;
+    }
+
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .student-name {
+      font-weight: 600;
+      color: #1e3a8a;
+      font-size: 18px;
+    }
+
+    .student-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .info-item {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .student-courses {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .course-badge {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .remove-btn {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .remove-btn:hover {
+      background: #b91c1c;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .course-checkboxes {
+        grid-template-columns: 1fr;
+      }
+      
+      .student-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="logo2ehc.png" alt="Logo 2EHC" class="logo">
+        <h1>Área da Empresa</h1>
+      </div>
+      <div class="nav-buttons">
+        <button class="nav-btn" onclick="window.location.href='home-empresa.html'">
+          Dashboard
+        </button>
+        <button class="nav-btn" onclick="logout()">
+          Sair
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="welcome-section">
+      <h2 id="empresaNome">Bem-vinda, Empresa!</h2>
+      <p>Gerencie os alunos que terão acesso aos cursos adquiridos.</p>
+      
+      <div class="purchased-courses">
+        <h4>Cursos Adquiridos:</h4>
+        <div class="course-list" id="cursosAdquiridos"></div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Cadastrar Novo Aluno</h3>
+      <form id="alunoForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nomeAluno">Nome Completo *</label>
+            <input type="text" id="nomeAluno" name="nomeAluno" required>
+          </div>
+          <div class="form-group">
+            <label for="cpfAluno">CPF *</label>
+            <input type="text" id="cpfAluno" name="cpfAluno" required placeholder="000.000.000-00">
+          </div>
+          <div class="form-group">
+            <label for="emailAluno">E-mail *</label>
+            <input type="email" id="emailAluno" name="emailAluno" required>
+          </div>
+          <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento *</label>
+            <input type="date" id="dataNascimento" name="dataNascimento" required>
+          </div>
+        </div>
+
+        <div class="course-selection">
+          <label>Cursos para este Aluno:</label>
+          <div class="course-checkboxes" id="cursosCheckboxes"></div>
+        </div>
+
+        <button type="submit" class="add-btn">Cadastrar Aluno</button>
+      </form>
+    </div>
+
+    <div class="students-list">
+      <h3>Alunos Cadastrados</h3>
+      <div id="listaAlunos"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    let empresaData = JSON.parse(localStorage.getItem('empresaLogada'));
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+    if (!empresaData) {
+      window.location.href = 'index.html';
+    }
+
+    function initializePage() {
+      // Mostrar nome da empresa
+      document.getElementById('empresaNome').textContent = `Bem-vinda, ${empresaData.razaoSocial}!`;
+      
+      // Mostrar cursos adquiridos
+      const cursosContainer = document.getElementById('cursosAdquiridos');
+      cursosContainer.innerHTML = empresaData.pedido.items.map(item => 
+        `<span class="course-tag">${item.name}</span>`
+      ).join('');
+      
+      // Criar checkboxes dos cursos
+      const checkboxContainer = document.getElementById('cursosCheckboxes');
+      checkboxContainer.innerHTML = empresaData.pedido.items.map(item => `
+        <div class="checkbox-group">
+          <input type="checkbox" id="curso_${item.name}" name="cursos" value="${item.name}">
+          <label for="curso_${item.name}">${item.name}</label>
+        </div>
+      `).join('');
+      
+      renderAlunos();
+    }
+
+    function renderAlunos() {
+      const container = document.getElementById('listaAlunos');
+      const alunosEmpresa = alunos.filter(aluno => aluno.empresaId === empresaData.emailResponsavel);
+      
+      if (alunosEmpresa.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h4>Nenhum aluno cadastrado ainda</h4>
+            <p>Cadastre alunos para liberar o acesso aos cursos adquiridos.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = alunosEmpresa.map(aluno => `
+        <div class="student-card">
+          <div class="student-header">
+            <div class="student-name">${aluno.nomeAluno}</div>
+            <button class="remove-btn" onclick="removeAluno('${aluno.id}')">Remover</button>
+          </div>
+          <div class="student-info">
+            <div class="info-item">
+              <span class="info-label">CPF:</span> ${aluno.cpfAluno}
+            </div>
+            <div class="info-item">
+              <span class="info-label">E-mail:</span> ${aluno.emailAluno}
+            </div>
+            <div class="info-item">
+              <span class="info-label">Nascimento:</span> ${new Date(aluno.dataNascimento).toLocaleDateString('pt-BR')}
+            </div>
+          </div>
+          <div class="student-courses">
+            ${aluno.cursos.map(curso => `<span class="course-badge">${curso}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Máscara para CPF
+    document.getElementById('cpfAluno').addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      e.target.value = value;
+    });
+
+    // Cadastrar aluno
+    document.getElementById('alunoForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const cursosSelected = Array.from(document.querySelectorAll('input[name="cursos"]:checked'))
+        .map(checkbox => checkbox.value);
+      
+      if (cursosSelected.length === 0) {
+        alert('Selecione pelo menos um curso para o aluno!');
+        return;
+      }
+
+      const novoAluno = {
+        id: Date.now().toString(),
+        nomeAluno: formData.get('nomeAluno'),
+        cpfAluno: formData.get('cpfAluno'),
+        emailAluno: formData.get('emailAluno'),
+        dataNascimento: formData.get('dataNascimento'),
+        cursos: cursosSelected,
+        empresaId: empresaData.emailResponsavel,
+        dataCadastro: new Date().toISOString(),
+        senha: Math.random().toString(36).slice(-8) // Senha temporária
+      };
+
+      alunos.push(novoAluno);
+      localStorage.setItem('alunos', JSON.stringify(alunos));
+      
+      // Limpar formulário
+      e.target.reset();
+      document.querySelectorAll('input[name="cursos"]').forEach(cb => cb.checked = false);
+      
+      renderAlunos();
+      alert(`Aluno cadastrado com sucesso! Senha temporária: ${novoAluno.senha}`);
+    });
+
+    window.removeAluno = function(alunoId) {
+      if (confirm('Tem certeza que deseja remover este aluno?')) {
+        alunos = alunos.filter(aluno => aluno.id !== alunoId);
+        localStorage.setItem('alunos', JSON.stringify(alunos));
+        renderAlunos();
+      }
+    };
+
+    window.logout = function() {
+      localStorage.removeItem('empresaLogada');
+      window.location.href = 'index.html';
+    };
+
+    // Inicializar página
+    initializePage();
+  </script>
+
+</body>
+</html>

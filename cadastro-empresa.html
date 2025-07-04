@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro da Empresa - 2EHC Treinamentos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .form-container {
+      padding: 40px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 600;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #374151;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1e3a8a;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .order-summary {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px 0;
+      border-left: 4px solid #dc2626;
+    }
+
+    .order-summary h4 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+      font-weight: 600;
+      color: #1e3a8a;
+      font-size: 18px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #b91c1c, #991b1b);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .back-btn {
+      background: transparent;
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      border-color: #1e3a8a;
+      color: #1e3a8a;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .button-group {
+        flex-direction: column-reverse;
+        gap: 15px;
+      }
+      
+      .back-btn {
+        margin-right: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Cadastro da Empresa</h1>
+      <p>Complete os dados para finalizar sua compra</p>
+    </div>
+
+    <div class="form-container">
+      <form id="empresaForm">
+        <div class="form-section">
+          <h3>Dados da Empresa</h3>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="razaoSocial">Razão Social *</label>
+              <input type="text" id="razaoSocial" name="razaoSocial" required>
+            </div>
+            <div class="form-group">
+              <label for="cnpj">CNPJ *</label>
+              <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00">
+            </div>
+            <div class="form-group">
+              <label for="inscricaoEstadual">Inscrição Estadual</label>
+              <input type="text" id="inscricaoEstadual" name="inscricaoEstadual">
+            </div>
+            <div class="form-group full-width">
+              <label for="endereco">Endereço Completo *</label>
+              <input type="text" id="endereco" name="endereco" required>
+            </div>
+            <div class="form-group">
+              <label for="cidade">Cidade *</label>
+              <input type="text" id="cidade" name="cidade" required>
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado *</label>
+              <select id="estado" name="estado" required>
+                <option value="">Selecione...</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cep">CEP *</label>
+              <input type="text" id="cep" name="cep" required placeholder="00000-000">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Responsável pela Compra</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nomeResponsavel">Nome Completo *</label>
+              <input type="text" id="nomeResponsavel" name="nomeResponsavel" required>
+            </div>
+            <div class="form-group">
+              <label for="cargoResponsavel">Cargo</label>
+              <input type="text" id="cargoResponsavel" name="cargoResponsavel">
+            </div>
+            <div class="form-group">
+              <label for="emailResponsavel">E-mail *</label>
+              <input type="email" id="emailResponsavel" name="emailResponsavel" required>
+            </div>
+            <div class="form-group">
+              <label for="telefoneResponsavel">Telefone *</label>
+              <input type="tel" id="telefoneResponsavel" name="telefoneResponsavel" required placeholder="(00) 00000-0000">
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha para Acesso *</label>
+              <input type="password" id="senha" name="senha" required minlength="6">
+            </div>
+            <div class="form-group">
+              <label for="confirmarSenha">Confirmar Senha *</label>
+              <input type="password" id="confirmarSenha" name="confirmarSenha" required minlength="6">
+            </div>
+          </div>
+        </div>
+
+        <div class="order-summary">
+          <h4>Resumo do Pedido</h4>
+          <div id="orderSummary"></div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="back-btn" onclick="window.location.href='carrinho.html'">
+            ← Voltar ao Carrinho
+          </button>
+          <button type="submit" class="submit-btn">
+            Finalizar Cadastro e Compra
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    // Carregar resumo do pedido
+    const orderData = JSON.parse(localStorage.getItem('currentOrder'));
+    if (!orderData) {
+      window.location.href = 'carrinho.html';
+    }
+
+    function renderOrderSummary() {
+      const summaryContainer = document.getElementById('orderSummary');
+      
+      let summaryHTML = '';
+      orderData.items.forEach(item => {
+        summaryHTML += `
+          <div class="order-item">
+            <span>${item.name} (${item.quantity}x)</span>
+            <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
+          </div>
+        `;
+      });
+      
+      summaryHTML += `
+        <div class="order-item">
+          <span><strong>Total</strong></span>
+          <span><strong>R$ ${orderData.total.toFixed(2)}</strong></span>
+        </div>
+      `;
+      
+      summaryContainer.innerHTML = summaryHTML;
+    }
+
+    // Máscaras para inputs
+    function applyCNPJMask(value) {
+      return value
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1/$2')
+        .replace(/(\d{4})(\d)/, '$1-$2')
+        .replace(/(-\d{2})\d+?$/, '$1');
+    }
+
+    function applyCEPMask(value) {
+      return value
+        .replace(/\D/g, '')
+        .replace(/(\d{5})(\d)/, '$1-$2')
+        .replace(/(-\d{3})\d+?$/, '$1');
+    }
+
+    function applyPhoneMask(value) {
+      return value
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '($1) $2')
+        .replace(/(\d{5})(\d)/, '$1-$2')
+        .replace(/(-\d{4})\d+?$/, '$1');
+    }
+
+    // Aplicar máscaras
+    document.getElementById('cnpj').addEventListener('input', (e) => {
+      e.target.value = applyCNPJMask(e.target.value);
+    });
+
+    document.getElementById('cep').addEventListener('input', (e) => {
+      e.target.value = applyCEPMask(e.target.value);
+    });
+
+    document.getElementById('telefoneResponsavel').addEventListener('input', (e) => {
+      e.target.value = applyPhoneMask(e.target.value);
+    });
+
+    // Validação do formulário
+    document.getElementById('empresaForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const senha = document.getElementById('senha').value;
+      const confirmarSenha = document.getElementById('confirmarSenha').value;
+      
+      if (senha !== confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      // Coletar dados do formulário
+      const formData = new FormData(e.target);
+      const empresaData = Object.fromEntries(formData.entries());
+      
+      // Adicionar dados do pedido
+      empresaData.pedido = orderData;
+      empresaData.dataCadastro = new Date().toISOString();
+      
+      try {
+        // Aqui você integraria com Firebase
+        // Por enquanto, vamos simular o salvamento
+        
+        // Salvar no localStorage temporariamente
+        const empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+        empresas.push(empresaData);
+        localStorage.setItem('empresas', JSON.stringify(empresas));
+        
+        // Limpar carrinho
+        localStorage.removeItem('cart');
+        localStorage.removeItem('currentOrder');
+        
+        // Salvar dados da empresa logada
+        localStorage.setItem('empresaLogada', JSON.stringify(empresaData));
+        
+        alert('Cadastro realizado com sucesso! Redirecionando para área da empresa...');
+        window.location.href = 'cadastro-alunos.html';
+        
+      } catch (error) {
+        console.error('Erro ao cadastrar empresa:', error);
+        alert('Erro ao processar cadastro. Tente novamente.');
+      }
+    });
+
+    // Inicializar
+    renderOrderSummary();
+  </script>
+
+</body>
+</html>

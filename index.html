@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>2EHC Treinamentos - Home</title>
+  <title>2EHC Treinamentos - Capacitação Profissional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,14 +13,15 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
+      font-family: 'Inter', Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
     }
 
     header {
-      background-color: #003366;
-      padding: 15px 40px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -27,26 +29,83 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
     }
 
-    header h1 {
-      font-size: 28px;
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+      transform: rotate(5deg);
+    }
+
+    .logo-container h1 {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ffffff, #fecaca);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
     }
 
     nav a {
       color: white;
-      margin-left: 20px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      background-color: rgba(220, 38, 38, 0.2);
+      transform: translateY(-2px);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #dc2626;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover::after {
+      width: 80%;
     }
 
     .hero {
-      background: url('https://th.bing.com/th/id/R.b1bc9c59998debded8c242f8769ebef0?rik=FQei2ISE5Ize9g&pid=ImgRaw&r=0') no-repeat center center/cover;
-      height: 650px;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(220, 38, 38, 0.8)), 
+                  url('https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg') center/cover;
+      height: 70vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -56,289 +115,541 @@
     }
 
     .hero-content {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 50px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 800px;
     }
 
     .hero h2 {
-      font-size: 36px;
-      margin-bottom: 10px;
+      font-size: 48px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .hero p {
-      font-size: 18px;
-    }
-
-    .carousel-wrapper {
-      background: #fff;
-      padding: 40px 0;
-    }
-
-    .carousel-outer {
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .carousel {
-      overflow-x: auto;
-      white-space: nowrap;
-      scroll-behavior: smooth;
-      padding: 0 40px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .carousel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .carousel-container {
-      display: flex;
-      gap: 10px;
-    }
-
-    .carousel-item {
-      flex: 0 0 auto;
-      width: 150px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #003366;
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .carousel-item:hover {
-      background-color: #002244;
-    }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 30px;
-      background-color: rgba(0, 51, 102, 0.8);
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .arrow-left {
-      left: 0;
-    }
-
-    .arrow-right {
-      right: 0;
+      font-size: 20px;
+      opacity: 0.95;
+      font-weight: 300;
     }
 
     .cursos-section {
-      padding: 60px 40px;
-      background-image: url('https://jcconcursos.com.br/media/_versions/noticia/tecnico-seguranca-trabalho_widelg.jpg'); /* EDITÁVEL */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-      color: #fff;
-    }
-
-    .cursos-section::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 0;
+      padding: 80px 40px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     }
 
     .cursos-section h2 {
       text-align: center;
-      font-size: 32px;
-      margin-bottom: 30px;
+      font-size: 42px;
+      margin-bottom: 50px;
+      color: #1e3a8a;
+      font-weight: 700;
       position: relative;
-      z-index: 1;
+    }
+
+    .cursos-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a, #dc2626);
+      border-radius: 2px;
     }
 
     .cursos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      position: relative;
-      z-index: 1;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .curso-card {
-      background-color: rgba(255, 255, 255, 0.95);
-      color: #333;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      transition: transform 0.2s;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
       position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
     }
 
     .curso-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.2);
+      border-color: #dc2626;
     }
 
-    .curso-card .icon {
-  font-size: 20px;
-  color: #003366;
-  position: absolute;
-  top: 80%;
-  right: 40px;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-    .curso-card img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
+    .curso-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a, #dc2626);
     }
 
-    .curso-card h3 {
-      margin-bottom: 10px;
-      color: #003366;
+    .curso-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
     }
 
-    .curso-card p {
+    .curso-info h3 {
+      font-size: 24px;
+      color: #1e3a8a;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .curso-duracao {
+      color: #dc2626;
+      font-weight: 500;
       font-size: 14px;
-      color: #555;
-      margin-top: 10px;
+    }
+
+    .expand-btn {
+      background: linear-gradient(135deg, #1e3a8a, #dc2626);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .expand-btn:hover {
+      transform: rotate(180deg) scale(1.1);
+      box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+    }
+
+    .curso-description {
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .curso-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #f8fafc;
+      margin: 20px -30px -30px -30px;
+      padding: 0 30px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .curso-details.expanded {
+      max-height: 300px;
+      padding: 30px;
+    }
+
+    .curso-details h4 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .curso-details p {
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .price-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .buy-btn:hover {
+      background: linear-gradient(135deg, #b91c1c, #991b1b);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
     }
 
     footer {
-      background-color: #003366;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
       color: white;
       text-align: center;
-      padding: 20px;
-      margin-top: 40px;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    .cart-icon {
+      position: fixed;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .cart-icon:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #1e3a8a;
+      color: white;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .hero h2 {
+        font-size: 32px;
+      }
+      
+      .cursos-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+      }
+      
+      header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+      
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-  <div class="logo-container">
-    <img src="logo2ehc.png" alt="Logo 2EHC" class="logo" style="width: 50px; height: 50px;">
-    <h1>2EHC Treinamentos</h1>
-  </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="#cursos">Cursos</a>
-    <a href="#">Financeiro</a>
-    <a href="#">Acompanhamento</a>
-    <a href="login.html">Login</a>
-  </nav>
-</header>
+    <div class="logo-container">
+      <img src="logo2ehc.png" alt="Logo 2EHC" class="logo">
+      <h1>2EHC Treinamentos</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login-aluno.html">Página do Aluno</a>
+      <a href="login-empresa.html">Página da Empresa</a>
+    </nav>
+  </header>
 
   <section class="hero">
     <div class="hero-content">
-      <h2>Capacitação de verdade para seu crescimento</h2>
-      <p>Transforme seu futuro com nossos cursos certificados e acompanhamento personalizado.</p>
+      <h2>Capacitação Profissional de Excelência</h2>
+      <p>Transforme seu futuro com nossos cursos certificados em segurança do trabalho e normas regulamentadoras.</p>
     </div>
   </section>
 
-  <!-- Carrossel de Botões -->
-  <section class="carousel-wrapper">
-    <div class="carousel-outer">
-      <button class="arrow arrow-left" onclick="scrollCarousel(-1)">‹</button>
-      <div class="carousel" id="carouselContainer">
-        <div class="carousel-container">
-          <div class="carousel-item">NR 10</div>
-          <div class="carousel-item">NR 11</div>
-          <div class="carousel-item">NR 12</div>
-          <div class="carousel-item">NR 18</div>
-          <div class="carousel-item">NR 33</div>
-          <div class="carousel-item">NR 35</div>
-          <div class="carousel-item">NR 36</div>
-          <div class="carousel-item">NR 20</div>
+  <section class="cursos-section" id="cursos">
+    <h2>Nossos Cursos Disponíveis</h2>
+    <div class="cursos-grid">
+      
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-18</h3>
+            <div class="curso-duracao">Construção Civil</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          O treinamento NR-18, relacionado às Condições e Meio Ambiente de Trabalho na Indústria da Construção, visa garantir a segurança e saúde dos trabalhadores nesse setor. Ele abrange a identificação de riscos, o uso correto de EPIs e EPCs, e a implementação de medidas preventivas, seguindo as diretrizes estabelecidas pela norma.
+        </p>
+        <div class="curso-details">
+          <h4>O que é o treinamento NR-18?</h4>
+          <p>
+            O treinamento NR-18 é obrigatório para todos os trabalhadores da construção civil e tem como objetivo principal capacitar os profissionais a reconhecerem os riscos presentes no ambiente de trabalho e a adotarem medidas de prevenção e proteção, utilizando os equipamentos de proteção individual (EPIs) e coletiva (EPCs) adequados.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 120,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-18', 120)">Compre Agora</button>
         </div>
       </div>
-      <button class="arrow arrow-right" onclick="scrollCarousel(1)">›</button>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-34</h3>
+            <div class="curso-duracao">16 horas</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Treinamento focado em condições e meio ambiente de trabalho na indústria da construção e reparação naval, abordando os principais riscos e medidas preventivas específicas do setor naval.
+        </p>
+        <div class="curso-details">
+          <h4>Sobre o treinamento NR-34</h4>
+          <p>
+            Capacita trabalhadores da construção naval com conhecimentos específicos sobre segurança em estaleiros, soldagem, trabalhos em altura em embarcações e procedimentos de emergência no ambiente naval.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 180,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-34', 180)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-34</h3>
+            <div class="curso-duracao">8 horas</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Versão compacta do treinamento NR-34, focada nos aspectos essenciais de segurança na construção naval para trabalhadores com experiência prévia no setor.
+        </p>
+        <div class="curso-details">
+          <h4>NR-34 Versão Compacta</h4>
+          <p>
+            Treinamento direcionado para profissionais que já possuem conhecimento básico em construção naval, focando em atualizações normativas e procedimentos específicos.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 95,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-34 (8h)', 95)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-5</h3>
+            <div class="curso-duracao">40 horas</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Formação completa para membros da CIPA (Comissão Interna de Prevenção de Acidentes), abordando legislação, investigação de acidentes, mapeamento de riscos e elaboração de planos de ação.
+        </p>
+        <div class="curso-details">
+          <h4>Formação CIPA Completa</h4>
+          <p>
+            Curso completo para capacitar cipeiros com todas as competências necessárias para atuar na prevenção de acidentes e promoção da segurança no ambiente de trabalho.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 280,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-5 (40h)', 280)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-5</h3>
+            <div class="curso-duracao">20 horas</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Treinamento básico para CIPA, focado nos conceitos fundamentais de prevenção de acidentes e noções básicas de segurança do trabalho.
+        </p>
+        <div class="curso-details">
+          <h4>CIPA Básico</h4>
+          <p>
+            Versão introdutória do treinamento CIPA, ideal para empresas de menor porte ou como curso de reciclagem para cipeiros experientes.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 150,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-5 (20h)', 150)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-1</h3>
+            <div class="curso-duracao">Integração</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Treinamento de integração obrigatório para todos os trabalhadores, apresentando as disposições gerais sobre segurança e saúde no trabalho conforme a NR-1.
+        </p>
+        <div class="curso-details">
+          <h4>Integração de Segurança</h4>
+          <p>
+            Curso fundamental que apresenta os conceitos básicos de segurança do trabalho, direitos e deveres dos trabalhadores, e introdução às normas regulamentadoras.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 80,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-1 Integração', 80)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-6</h3>
+            <div class="curso-duracao">EPI</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Treinamento sobre Equipamentos de Proteção Individual, abordando seleção, uso correto, conservação e responsabilidades relacionadas aos EPIs.
+        </p>
+        <div class="curso-details">
+          <h4>Treinamento de EPI</h4>
+          <p>
+            Capacitação completa sobre equipamentos de proteção individual, incluindo tipos de EPIs, critérios de seleção, uso adequado e manutenção preventiva.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 90,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-6 EPI', 90)">Compre Agora</button>
+        </div>
+      </div>
+
+      <div class="curso-card">
+        <div class="curso-header">
+          <div class="curso-info">
+            <h3>NR-11</h3>
+            <div class="curso-duracao">Transporte e Movimentação</div>
+          </div>
+          <button class="expand-btn" onclick="toggleDetails(this)">+</button>
+        </div>
+        <p class="curso-description">
+          Treinamento sobre transporte, movimentação, armazenagem e manuseio de materiais, incluindo operação segura de equipamentos de guindar e transportar.
+        </p>
+        <div class="curso-details">
+          <h4>Movimentação de Materiais</h4>
+          <p>
+            Curso abrangente sobre técnicas seguras de movimentação de cargas, operação de equipamentos de transporte e prevenção de acidentes em atividades de carga e descarga.
+          </p>
+        </div>
+        <div class="price-section">
+          <div class="price">R$ 110,00</div>
+          <button class="buy-btn" onclick="addToCart('NR-11', 110)">Compre Agora</button>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Conheça nossos cursos -->
-  <section class="cursos-section" id="cursos">
-    <h2>Conheça nossos cursos</h2>
-    <div class="cursos-grid">
-      <div class="curso-card">
-        <div class="icon">+</div>
-        <img src="https://gaseservi.com.br/ead/wp-content/uploads/2021/08/nr10.png" alt="Curso NR 10">
-        <h3>Curso NR 17</h3>
-        <p>Voltado à segurança em instalações elétricas, aborda normas e procedimentos essenciais para prevenção de acidentes.</p>
-      </div>
-      <div class="curso-card">
-        <div class="icon">+</div>
-        <img src="https://www.lelisambiental.com.br/blog/wp-content/uploads/2021/03/AdobeStock_212615637-scaled.jpg" alt="Curso NR 35">
-        <h3>Curso NR 35</h3>
-        <p>Capacita trabalhadores para atuar com segurança em atividades realizadas em altura, respeitando os requisitos legais.</p>
-      </div>
-      <div class="curso-card">
-        <div class="icon">+</div>
-        <img src="https://www.apexwarehousesystems.com/wp-content/uploads/2024/08/Understanding-OSHA-First-Aid-Requirements-for-Warehouses-scaled-e1723152725444-1024x512.jpeg" alt="Primeiros Socorros">
-        <h3>Primeiros Socorros</h3>
-        <p>Ensina técnicas imediatas para preservar a vida em situações de emergência até a chegada do socorro especializado.</p>
-      </div>
-      <div class="curso-card">
-        <div class="icon">+</div>
-        <img src="https://th.bing.com/th/id/R.072f0f70e850d16aaa43603e043181a6?rik=v21RWdGgHAPvXA&riu=http%3a%2f%2fconstruindodecor.com.br%2fwp-content%2fuploads%2f2020%2f04%2fBrigada-de-Incendio-2.jpg&ehk=0BM9npIkay65iyGYk7nqBG8N%2b1fL1rLG32vbWzEcTL8%3d&risl=&pid=ImgRaw&r=0" alt="Brigada de Incêndio">
-        <h3>Brigada de Incêndio</h3>
-        <p>Treinamento para atuação rápida em situações de incêndio, com foco em evacuação, combate inicial e prevenção.</p>
-      </div>
-    </div>
-  </section>
+  <button class="cart-icon" onclick="openCart()">
+    🛒
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
 
   <footer>
-    &copy; 2025 2EHC Treinamentos. Todos os direitos reservados.
+    <p>&copy; 2025 2EHC Treinamentos. Todos os direitos reservados.</p>
+    <p>Capacitação profissional com excelência e segurança.</p>
   </footer>
 
-  <script>
-    const container = document.getElementById('carouselContainer');
-    const scrollAmount = 180;
+  <script type="module">
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartCount();
 
-    function scrollCarousel(direction) {
-      container.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
-      });
+    window.toggleDetails = function(button) {
+      const details = button.closest('.curso-card').querySelector('.curso-details');
+      const isExpanded = details.classList.contains('expanded');
+      
+      if (isExpanded) {
+        details.classList.remove('expanded');
+        button.textContent = '+';
+        button.style.transform = 'rotate(0deg)';
+      } else {
+        details.classList.add('expanded');
+        button.textContent = '−';
+        button.style.transform = 'rotate(180deg)';
+      }
+    };
+
+    window.addToCart = function(courseName, price) {
+      const existingItem = cart.find(item => item.name === courseName);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          name: courseName,
+          price: price,
+          quantity: 1
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      
+      // Feedback visual
+      const button = event.target;
+      const originalText = button.textContent;
+      button.textContent = 'Adicionado!';
+      button.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
+      }, 1500);
+    };
+
+    window.openCart = function() {
+      window.location.href = 'carrinho.html';
+    };
+
+    function updateCartCount() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = totalItems;
     }
-
-    function startAutoScroll() {
-      setInterval(() => {
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
-          container.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          scrollCarousel(1);
-        }
-      }, 3000);
-    }
-
-    window.onload = startAutoScroll;
   </script>
 
 </body>
