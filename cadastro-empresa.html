@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro da Empresa - 2EHC Treinamentos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Inter', Arial, sans-serif;
+      font-family: 'Poppins', Arial, sans-serif;
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
       color: #1e293b;
       min-height: 100vh;
@@ -39,6 +39,7 @@
     .header h1 {
       font-size: 28px;
       margin-bottom: 10px;
+      font-weight: 600;
     }
 
     .header p {
@@ -177,6 +178,31 @@
       margin-top: 30px;
     }
 
+    .success-message {
+      background: #f0fdf4;
+      color: #166534;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      border-left: 4px solid #16a34a;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      border-left: 4px solid #dc2626;
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
     @media (max-width: 768px) {
       .form-grid {
         grid-template-columns: 1fr;
@@ -203,6 +229,9 @@
     </div>
 
     <div class="form-container">
+      <div id="successMessage" class="success-message" style="display: none;"></div>
+      <div id="errorMessage" class="error-message" style="display: none;"></div>
+      
       <form id="empresaForm">
         <div class="form-section">
           <h3>Dados da Empresa</h3>
@@ -306,7 +335,7 @@
           <button type="button" class="back-btn" onclick="window.location.href='carrinho.html'">
             ← Voltar ao Carrinho
           </button>
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" id="submitBtn">
             Finalizar Cadastro e Compra
           </button>
         </div>
@@ -315,10 +344,45 @@
   </div>
 
   <script type="module">
+    import { cadastrarUsuario } from './firebase-config.js';
+
     // Carregar resumo do pedido
     const orderData = JSON.parse(localStorage.getItem('currentOrder'));
     if (!orderData) {
       window.location.href = 'carrinho.html';
+    }
+
+    function showMessage(message, isSuccess = false) {
+      const successDiv = document.getElementById('successMessage');
+      const errorDiv = document.getElementById('errorMessage');
+      
+      if (isSuccess) {
+        successDiv.textContent = message;
+        successDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+      } else {
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        successDiv.style.display = 'none';
+      }
+      
+      setTimeout(() => {
+        successDiv.style.display = 'none';
+        errorDiv.style.display = 'none';
+      }, 5000);
+    }
+
+    function setLoading(loading) {
+      const form = document.getElementById('empresaForm');
+      const btn = document.getElementById('submitBtn');
+      
+      if (loading) {
+        form.classList.add('loading');
+        btn.textContent = 'Processando...';
+      } else {
+        form.classList.remove('loading');
+        btn.textContent = 'Finalizar Cadastro e Compra';
+      }
     }
 
     function renderOrderSummary() {
@@ -391,40 +455,68 @@
       const confirmarSenha = document.getElementById('confirmarSenha').value;
       
       if (senha !== confirmarSenha) {
-        alert('As senhas não coincidem!');
+        showMessage('As senhas não coincidem!');
         return;
       }
 
-      // Coletar dados do formulário
       const formData = new FormData(e.target);
       const empresaData = Object.fromEntries(formData.entries());
+      const email = empresaData.emailResponsavel;
       
       // Adicionar dados do pedido
       empresaData.pedido = orderData;
       empresaData.dataCadastro = new Date().toISOString();
       
+      setLoading(true);
+      
       try {
-        // Aqui você integraria com Firebase
-        // Por enquanto, vamos simular o salvamento
+        // Tentar cadastrar no Firebase
+        const result = await cadastrarUsuario(email, senha, empresaData, 'empresa');
         
-        // Salvar no localStorage temporariamente
-        const empresas = JSON.parse(localStorage.getItem('empresas')) || [];
-        empresas.push(empresaData);
-        localStorage.setItem('empresas', JSON.stringify(empresas));
-        
-        // Limpar carrinho
-        localStorage.removeItem('cart');
-        localStorage.removeItem('currentOrder');
-        
-        // Salvar dados da empresa logada
-        localStorage.setItem('empresaLogada', JSON.stringify(empresaData));
-        
-        alert('Cadastro realizado com sucesso! Redirecionando para área da empresa...');
-        window.location.href = 'cadastro-alunos.html';
-        
+        if (result.success) {
+          // Limpar carrinho
+          localStorage.removeItem('cart');
+          localStorage.removeItem('currentOrder');
+          
+          // Salvar dados da empresa logada
+          localStorage.setItem('empresaLogada', JSON.stringify(empresaData));
+          
+          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
+          
+          setTimeout(() => {
+            window.location.href = 'cadastro-alunos.html';
+          }, 2000);
+        } else {
+          // Fallback para localStorage
+          const empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+          const emailExiste = empresas.some(emp => emp.emailResponsavel === email);
+          
+          if (emailExiste) {
+            showMessage('Este e-mail já está cadastrado!');
+            return;
+          }
+
+          empresas.push(empresaData);
+          localStorage.setItem('empresas', JSON.stringify(empresas));
+          
+          // Limpar carrinho
+          localStorage.removeItem('cart');
+          localStorage.removeItem('currentOrder');
+          
+          // Salvar dados da empresa logada
+          localStorage.setItem('empresaLogada', JSON.stringify(empresaData));
+          
+          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
+          
+          setTimeout(() => {
+            window.location.href = 'cadastro-alunos.html';
+          }, 2000);
+        }
       } catch (error) {
-        console.error('Erro ao cadastrar empresa:', error);
-        alert('Erro ao processar cadastro. Tente novamente.');
+        console.error('Erro no cadastro:', error);
+        showMessage('Erro ao processar cadastro. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
     });
 

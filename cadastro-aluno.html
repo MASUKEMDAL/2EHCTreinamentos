@@ -4,20 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro de Aluno - 2EHC Treinamentos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'Organetto';
-      src: url('public/fonts/Fontspring-DEMO-organetto-regular.otf') format('opentype');
-      font-weight: normal;
-    }
-
-    @font-face {
-      font-family: 'Organetto';
-      src: url('public/fonts/Fontspring-DEMO-organetto-light.otf') format('opentype');
-      font-weight: 300;
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -25,7 +13,7 @@
     }
 
     body {
-      font-family: 'Organetto', 'Inter', Arial, sans-serif;
+      font-family: 'Poppins', Arial, sans-serif;
       background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%);
       min-height: 100vh;
       display: flex;
@@ -61,8 +49,7 @@
     .cadastro-header h2 {
       font-size: 24px;
       margin-bottom: 10px;
-      font-family: 'Organetto', sans-serif;
-      font-weight: 300;
+      font-weight: 600;
     }
 
     .cadastro-header p {
@@ -129,6 +116,7 @@
       text-decoration: none;
       font-size: 14px;
       transition: color 0.3s ease;
+      margin-bottom: 10px;
     }
 
     .back-link:hover {
@@ -153,6 +141,11 @@
       margin-bottom: 20px;
       font-size: 14px;
       border-left: 4px solid #dc2626;
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
     }
 
     @media (max-width: 480px) {
@@ -211,16 +204,17 @@
           <input type="password" id="confirmarSenha" name="confirmarSenha" required minlength="6">
         </div>
 
-        <button type="submit" class="cadastro-btn">Criar Conta</button>
+        <button type="submit" class="cadastro-btn" id="cadastroBtn">Criar Conta</button>
       </form>
 
       <a href="login-aluno.html" class="back-link">Já tem conta? Faça login</a>
-      <br><br>
       <a href="index.html" class="back-link">← Voltar ao início</a>
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { cadastrarUsuario } from './firebase-config.js';
+
     function showMessage(message, isSuccess = false) {
       const successDiv = document.getElementById('successMessage');
       const errorDiv = document.getElementById('errorMessage');
@@ -241,6 +235,19 @@
       }, 5000);
     }
 
+    function setLoading(loading) {
+      const form = document.getElementById('cadastroForm');
+      const btn = document.getElementById('cadastroBtn');
+      
+      if (loading) {
+        form.classList.add('loading');
+        btn.textContent = 'Criando conta...';
+      } else {
+        form.classList.remove('loading');
+        btn.textContent = 'Criar Conta';
+      }
+    }
+
     // Máscara para CPF
     document.getElementById('cpf').addEventListener('input', (e) => {
       let value = e.target.value.replace(/\D/g, '');
@@ -259,7 +266,7 @@
       e.target.value = value;
     });
 
-    document.getElementById('cadastroForm').addEventListener('submit', (e) => {
+    document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const senha = document.getElementById('senha').value;
@@ -270,39 +277,51 @@
         return;
       }
 
-      // Coletar dados do formulário
       const formData = new FormData(e.target);
       const alunoData = Object.fromEntries(formData.entries());
+      const email = alunoData.email;
       
-      // Verificar se já existe um aluno com este email
-      const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
-      const emailExiste = alunos.some(aluno => aluno.email === alunoData.email);
-      
-      if (emailExiste) {
-        showMessage('Este e-mail já está cadastrado!');
-        return;
-      }
-
-      // Adicionar dados extras
-      alunoData.id = Date.now().toString();
-      alunoData.dataCadastro = new Date().toISOString();
-      alunoData.tipo = 'aluno';
-      alunoData.cursosLiberados = [];
+      setLoading(true);
       
       try {
-        // Salvar no localStorage
-        alunos.push(alunoData);
-        localStorage.setItem('alunos', JSON.stringify(alunos));
+        // Tentar cadastrar no Firebase
+        const result = await cadastrarUsuario(email, senha, alunoData, 'aluno');
         
-        showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
-        
-        setTimeout(() => {
-          window.location.href = 'login-aluno.html';
-        }, 2000);
-        
+        if (result.success) {
+          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
+          
+          setTimeout(() => {
+            window.location.href = 'login-aluno.html';
+          }, 2000);
+        } else {
+          // Se falhar no Firebase, salvar no localStorage como fallback
+          const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+          const emailExiste = alunos.some(aluno => aluno.email === email);
+          
+          if (emailExiste) {
+            showMessage('Este e-mail já está cadastrado!');
+            return;
+          }
+
+          alunoData.id = Date.now().toString();
+          alunoData.dataCadastro = new Date().toISOString();
+          alunoData.tipo = 'aluno';
+          alunoData.cursosLiberados = [];
+          
+          alunos.push(alunoData);
+          localStorage.setItem('alunos', JSON.stringify(alunos));
+          
+          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
+          
+          setTimeout(() => {
+            window.location.href = 'login-aluno.html';
+          }, 2000);
+        }
       } catch (error) {
-        console.error('Erro ao cadastrar aluno:', error);
+        console.error('Erro no cadastro:', error);
         showMessage('Erro ao processar cadastro. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
     });
   </script>
