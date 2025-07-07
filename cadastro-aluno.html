@@ -109,6 +109,12 @@
       box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
     }
 
+    .cadastro-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .back-link {
       display: block;
       text-align: center;
@@ -242,9 +248,11 @@
       if (loading) {
         form.classList.add('loading');
         btn.textContent = 'Criando conta...';
+        btn.disabled = true;
       } else {
         form.classList.remove('loading');
         btn.textContent = 'Criar Conta';
+        btn.disabled = false;
       }
     }
 
@@ -289,7 +297,11 @@
       setLoading(true);
       
       try {
+        console.log('Iniciando cadastro de aluno:', email);
+        
         const result = await cadastrarUsuario(email, senha, alunoData, 'aluno');
+        
+        console.log('Resultado do cadastro:', result);
         
         if (result.success) {
           showMessage('Cadastro realizado com sucesso! Redirecionando...', true);

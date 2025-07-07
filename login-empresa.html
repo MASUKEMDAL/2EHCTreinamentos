@@ -109,6 +109,12 @@
       box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
     }
 
+    .login-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .back-link {
       display: block;
       text-align: center;
@@ -217,32 +223,47 @@
       if (loading) {
         form.classList.add('loading');
         btn.textContent = 'Entrando...';
+        btn.disabled = true;
       } else {
         form.classList.remove('loading');
         btn.textContent = 'Entrar';
+        btn.disabled = false;
       }
     }
 
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const email = document.getElementById('email').value;
+      const email = document.getElementById('email').value.trim();
       const senha = document.getElementById('senha').value;
+      
+      if (!email || !senha) {
+        showMessage('Por favor, preencha todos os campos.');
+        return;
+      }
       
       setLoading(true);
       
       try {
+        console.log('Tentando fazer login como empresa:', email);
+        
         const result = await logarUsuario(email, senha);
         
-        if (result.success && result.userData && result.userData.tipo === 'empresa') {
-          localStorage.setItem('empresaLogada', JSON.stringify(result.userData));
-          showMessage('Login realizado com sucesso! Redirecionando...', true);
-          
-          setTimeout(() => {
-            window.location.href = 'home-empresa.html';
-          }, 1500);
-        } else if (result.success && result.userData && result.userData.tipo !== 'empresa') {
-          showMessage('Este e-mail está cadastrado como aluno. Use o login de aluno.');
+        console.log('Resultado do login:', result);
+        
+        if (result.success && result.userData) {
+          if (result.userData.tipo === 'empresa') {
+            // Salvar dados da empresa logada
+            localStorage.setItem('empresaLogada', JSON.stringify(result.userData));
+            
+            showMessage('Login realizado com sucesso! Redirecionando...', true);
+            
+            setTimeout(() => {
+              window.location.href = 'home-empresa.html';
+            }, 1500);
+          } else {
+            showMessage('Este e-mail está cadastrado como aluno. Use o login de aluno.');
+          }
         } else {
           showMessage(result.error || 'E-mail ou senha incorretos.');
         }
@@ -253,6 +274,12 @@
         setLoading(false);
       }
     });
+
+    // Verificar se já está logado
+    const empresaLogada = localStorage.getItem('empresaLogada');
+    if (empresaLogada) {
+      window.location.href = 'home-empresa.html';
+    }
   </script>
 
 </body>

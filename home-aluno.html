@@ -337,23 +337,47 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { verificarAutenticacao, deslogarUsuario } from './firebase-config.js';
+
     let alunoData = JSON.parse(localStorage.getItem('alunoLogado'));
 
-    if (!alunoData) {
-      window.location.href = 'login-aluno.html';
+    // Verificar se está logado
+    async function verificarLogin() {
+      if (!alunoData) {
+        console.log('Dados do aluno não encontrados no localStorage');
+        window.location.href = 'login-aluno.html';
+        return;
+      }
+
+      // Verificar autenticação no Firebase
+      try {
+        const user = await verificarAutenticacao();
+        if (!user) {
+          console.log('Usuário não autenticado no Firebase');
+          localStorage.removeItem('alunoLogado');
+          window.location.href = 'login-aluno.html';
+          return;
+        }
+        console.log('Usuário autenticado:', user.uid);
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+      }
+
+      initializeAluno();
     }
 
     function initializeAluno() {
       // Mostrar nome do aluno
-      document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${alunoData.nome}!`;
+      const nomeAluno = alunoData.nome || alunoData.nomeAluno || 'Aluno';
+      document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${nomeAluno}!`;
       
       // Mostrar dados do aluno
       const dadosContainer = document.getElementById('dadosAluno');
       dadosContainer.innerHTML = `
         <div class="info-item">
           <span class="info-label">Nome:</span>
-          <span class="info-value">${alunoData.nome}</span>
+          <span class="info-value">${nomeAluno}</span>
         </div>
         <div class="info-item">
           <span class="info-label">E-mail:</span>
@@ -361,11 +385,11 @@
         </div>
         <div class="info-item">
           <span class="info-label">CPF:</span>
-          <span class="info-value">${alunoData.cpf}</span>
+          <span class="info-value">${alunoData.cpf || 'Não informado'}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Data de Nascimento:</span>
-          <span class="info-value">${new Date(alunoData.dataNascimento).toLocaleDateString('pt-BR')}</span>
+          <span class="info-value">${alunoData.dataNascimento ? new Date(alunoData.dataNascimento).toLocaleDateString('pt-BR') : 'Não informado'}</span>
         </div>
       `;
       
@@ -463,13 +487,20 @@
       // Aqui você implementaria o download real do certificado
     };
 
-    window.logout = function() {
-      localStorage.removeItem('alunoLogado');
-      window.location.href = 'index.html';
+    window.logout = async function() {
+      try {
+        await deslogarUsuario();
+        localStorage.removeItem('alunoLogado');
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Erro ao fazer logout:', error);
+        localStorage.removeItem('alunoLogado');
+        window.location.href = 'index.html';
+      }
     };
 
     // Inicializar página
-    initializeAluno();
+    verificarLogin();
   </script>
 
 </body>
