@@ -405,26 +405,6 @@
       font-weight: bold;
     }
 
-    .demo-users {
-      background: #fef3c7;
-      border: 2px solid #f59e0b;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      text-align: center;
-    }
-
-    .demo-users h3 {
-      color: #92400e;
-      margin-bottom: 15px;
-    }
-
-    .demo-users p {
-      color: #92400e;
-      margin-bottom: 10px;
-    }
-
     @media (max-width: 768px) {
       .hero h2 {
         font-size: 32px;
@@ -473,13 +453,6 @@
       <p>Transforme seu futuro com nossos cursos certificados em segurança do trabalho e normas regulamentadoras.</p>
     </div>
   </section>
-
-  <div class="demo-users">
-    <h3>🔑 Usuários de Teste</h3>
-    <p><strong>Empresa:</strong> empresa@teste.com | Senha: 123456</p>
-    <p><strong>Aluno:</strong> aluno@teste.com | Senha: 123456</p>
-    <p><em>Use estes dados para testar o sistema!</em></p>
-  </div>
 
   <section class="auth-section">
     <h2>Acesse sua Conta ou Cadastre-se</h2>
@@ -753,58 +726,6 @@
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
       document.getElementById('cartCount').textContent = totalItems;
     }
-
-    // Criar usuários de teste no localStorage para demonstração
-    function criarUsuariosTeste() {
-      const empresasTeste = JSON.parse(localStorage.getItem('empresas')) || [];
-      const alunosTeste = JSON.parse(localStorage.getItem('alunos')) || [];
-      
-      // Empresa de teste
-      if (!empresasTeste.find(e => e.emailResponsavel === 'empresa@teste.com')) {
-        empresasTeste.push({
-          id: 'empresa-teste',
-          razaoSocial: 'Empresa Teste LTDA',
-          cnpj: '12.345.678/0001-90',
-          emailResponsavel: 'empresa@teste.com',
-          senha: '123456',
-          nomeResponsavel: 'João Silva',
-          telefoneResponsavel: '(11) 99999-9999',
-          endereco: 'Rua Teste, 123',
-          cidade: 'São Paulo',
-          estado: 'SP',
-          cep: '01234-567',
-          dataCadastro: new Date().toISOString(),
-          pedido: {
-            items: [
-              { name: 'NR-18', price: 120, quantity: 1 },
-              { name: 'NR-5 (40h)', price: 280, quantity: 1 }
-            ],
-            total: 400
-          }
-        });
-        localStorage.setItem('empresas', JSON.stringify(empresasTeste));
-      }
-      
-      // Aluno de teste
-      if (!alunosTeste.find(a => a.email === 'aluno@teste.com')) {
-        alunosTeste.push({
-          id: 'aluno-teste',
-          nome: 'Maria Santos',
-          cpf: '123.456.789-00',
-          email: 'aluno@teste.com',
-          senha: '123456',
-          dataNascimento: '1990-01-01',
-          telefone: '(11) 88888-8888',
-          dataCadastro: new Date().toISOString(),
-          cursosLiberados: ['NR-18', 'NR-5 (40h)'],
-          certificados: []
-        });
-        localStorage.setItem('alunos', JSON.stringify(alunosTeste));
-      }
-    }
-
-    // Criar usuários de teste na inicialização
-    criarUsuariosTeste();
   </script>
 
 </body>

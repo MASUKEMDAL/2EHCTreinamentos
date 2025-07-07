@@ -232,7 +232,6 @@
       setLoading(true);
       
       try {
-        // Tentar login com Firebase
         const result = await logarUsuario(email, senha);
         
         if (result.success && result.userData && result.userData.tipo === 'aluno') {
@@ -245,26 +244,11 @@
         } else if (result.success && result.userData && result.userData.tipo !== 'aluno') {
           showMessage('Este e-mail está cadastrado como empresa. Use o login de empresa.');
         } else {
-          // Fallback para localStorage (usuários de teste)
-          const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
-          const aluno = alunos.find(al => 
-            al.email === email && al.senha === senha
-          );
-          
-          if (aluno) {
-            localStorage.setItem('alunoLogado', JSON.stringify(aluno));
-            showMessage('Login realizado com sucesso! Redirecionando...', true);
-            
-            setTimeout(() => {
-              window.location.href = 'home-aluno.html';
-            }, 1500);
-          } else {
-            showMessage('E-mail ou senha incorretos.');
-          }
+          showMessage(result.error || 'E-mail ou senha incorretos.');
         }
       } catch (error) {
         console.error('Erro no login:', error);
-        showMessage('Erro ao fazer login. Tente novamente.');
+        showMessage('Erro ao fazer login. Verifique sua conexão e tente novamente.');
       } finally {
         setLoading(false);
       }

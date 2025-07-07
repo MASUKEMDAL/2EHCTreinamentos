@@ -35,7 +35,26 @@ export const cadastrarUsuario = async (email, senha, dadosAdicionais, tipo) => {
     return { success: true, user };
   } catch (error) {
     console.error('Erro no cadastro:', error);
-    return { success: false, error: error.message };
+    
+    // Tratamento específico de erros
+    let errorMessage = 'Erro ao criar conta. Tente novamente.';
+    
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        errorMessage = 'Este e-mail já está em uso.';
+        break;
+      case 'auth/weak-password':
+        errorMessage = 'A senha deve ter pelo menos 6 caracteres.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'E-mail inválido.';
+        break;
+      case 'auth/network-request-failed':
+        errorMessage = 'Erro de conexão. Verifique sua internet.';
+        break;
+    }
+    
+    return { success: false, error: errorMessage };
   }
 };
 
@@ -59,10 +78,36 @@ export const logarUsuario = async (email, senha) => {
       }
     }
     
+    if (!userData) {
+      return { success: false, error: 'Dados do usuário não encontrados.' };
+    }
+    
     return { success: true, user, userData };
   } catch (error) {
     console.error('Erro no login:', error);
-    return { success: false, error: error.message };
+    
+    // Tratamento específico de erros
+    let errorMessage = 'Erro ao fazer login. Tente novamente.';
+    
+    switch (error.code) {
+      case 'auth/user-not-found':
+        errorMessage = 'Usuário não encontrado.';
+        break;
+      case 'auth/wrong-password':
+        errorMessage = 'Senha incorreta.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'E-mail inválido.';
+        break;
+      case 'auth/too-many-requests':
+        errorMessage = 'Muitas tentativas. Tente novamente mais tarde.';
+        break;
+      case 'auth/network-request-failed':
+        errorMessage = 'Erro de conexão. Verifique sua internet.';
+        break;
+    }
+    
+    return { success: false, error: errorMessage };
   }
 };
 
@@ -88,6 +133,17 @@ export const buscarDadosUsuario = async (uid, tipo) => {
     }
   } catch (error) {
     console.error('Erro ao buscar dados:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const atualizarDadosUsuario = async (uid, tipo, dadosAtualizados) => {
+  try {
+    const docRef = doc(db, tipo === 'aluno' ? 'alunos' : 'empresas', uid);
+    await setDoc(docRef, dadosAtualizados, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error('Erro ao atualizar dados:', error);
     return { success: false, error: error.message };
   }
 };

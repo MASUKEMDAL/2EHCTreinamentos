@@ -281,10 +281,14 @@
       const alunoData = Object.fromEntries(formData.entries());
       const email = alunoData.email;
       
+      // Adicionar dados específicos do aluno
+      alunoData.tipo = 'aluno';
+      alunoData.cursosLiberados = [];
+      alunoData.certificados = [];
+      
       setLoading(true);
       
       try {
-        // Tentar cadastrar no Firebase
         const result = await cadastrarUsuario(email, senha, alunoData, 'aluno');
         
         if (result.success) {
@@ -294,32 +298,11 @@
             window.location.href = 'login-aluno.html';
           }, 2000);
         } else {
-          // Se falhar no Firebase, salvar no localStorage como fallback
-          const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
-          const emailExiste = alunos.some(aluno => aluno.email === email);
-          
-          if (emailExiste) {
-            showMessage('Este e-mail já está cadastrado!');
-            return;
-          }
-
-          alunoData.id = Date.now().toString();
-          alunoData.dataCadastro = new Date().toISOString();
-          alunoData.tipo = 'aluno';
-          alunoData.cursosLiberados = [];
-          
-          alunos.push(alunoData);
-          localStorage.setItem('alunos', JSON.stringify(alunos));
-          
-          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
-          
-          setTimeout(() => {
-            window.location.href = 'login-aluno.html';
-          }, 2000);
+          showMessage(result.error || 'Erro ao criar conta. Tente novamente.');
         }
       } catch (error) {
         console.error('Erro no cadastro:', error);
-        showMessage('Erro ao processar cadastro. Tente novamente.');
+        showMessage('Erro ao processar cadastro. Verifique sua conexão e tente novamente.');
       } finally {
         setLoading(false);
       }

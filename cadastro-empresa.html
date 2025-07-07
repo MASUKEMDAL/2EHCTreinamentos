@@ -465,12 +465,11 @@
       
       // Adicionar dados do pedido
       empresaData.pedido = orderData;
-      empresaData.dataCadastro = new Date().toISOString();
+      empresaData.tipo = 'empresa';
       
       setLoading(true);
       
       try {
-        // Tentar cadastrar no Firebase
         const result = await cadastrarUsuario(email, senha, empresaData, 'empresa');
         
         if (result.success) {
@@ -487,34 +486,11 @@
             window.location.href = 'cadastro-alunos.html';
           }, 2000);
         } else {
-          // Fallback para localStorage
-          const empresas = JSON.parse(localStorage.getItem('empresas')) || [];
-          const emailExiste = empresas.some(emp => emp.emailResponsavel === email);
-          
-          if (emailExiste) {
-            showMessage('Este e-mail já está cadastrado!');
-            return;
-          }
-
-          empresas.push(empresaData);
-          localStorage.setItem('empresas', JSON.stringify(empresas));
-          
-          // Limpar carrinho
-          localStorage.removeItem('cart');
-          localStorage.removeItem('currentOrder');
-          
-          // Salvar dados da empresa logada
-          localStorage.setItem('empresaLogada', JSON.stringify(empresaData));
-          
-          showMessage('Cadastro realizado com sucesso! Redirecionando...', true);
-          
-          setTimeout(() => {
-            window.location.href = 'cadastro-alunos.html';
-          }, 2000);
+          showMessage(result.error || 'Erro ao processar cadastro. Tente novamente.');
         }
       } catch (error) {
         console.error('Erro no cadastro:', error);
-        showMessage('Erro ao processar cadastro. Tente novamente.');
+        showMessage('Erro ao processar cadastro. Verifique sua conexão e tente novamente.');
       } finally {
         setLoading(false);
       }
