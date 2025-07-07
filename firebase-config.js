@@ -1,8 +1,20 @@
-// Configuração do Firebase
-import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+// Aguardar o Firebase ser carregado
+const waitForFirebase = () => {
+  return new Promise((resolve) => {
+    if (window.firebase) {
+      resolve();
+    } else {
+      const checkFirebase = setInterval(() => {
+        if (window.firebase) {
+          clearInterval(checkFirebase);
+          resolve();
+        }
+      }, 100);
+    }
+  });
+};
 
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDOI4O55CLW8eVkYSrTLU7j8GIrgNAt7Ik",
   authDomain: "ehc-treinamentos.firebaseapp.com",
@@ -13,16 +25,31 @@ const firebaseConfig = {
   measurementId: "G-MD2N8JK2YM"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+let app, auth, db;
+
+// Inicializar Firebase
+const initFirebase = async () => {
+  await waitForFirebase();
+  
+  if (!firebase.apps.length) {
+    app = firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.app();
+  }
+  
+  auth = firebase.auth();
+  db = firebase.firestore();
+  
+  console.log('Firebase inicializado com sucesso');
+};
 
 // Função para cadastrar usuário
 export const cadastrarUsuario = async (email, senha, dadosAdicionais, tipo) => {
   try {
+    await initFirebase();
     console.log('Iniciando cadastro para:', email, 'tipo:', tipo);
     
-    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
     const user = userCredential.user;
     
     console.log('Usuário criado no Auth:', user.uid);
@@ -38,7 +65,7 @@ export const cadastrarUsuario = async (email, senha, dadosAdicionais, tipo) => {
     
     // Salvar no Firestore
     const collection = tipo === 'aluno' ? 'alunos' : 'empresas';
-    await setDoc(doc(db, collection, user.uid), dadosParaSalvar);
+    await db.collection(collection).doc(user.uid).set(dadosParaSalvar);
     
     console.log('Dados salvos no Firestore:', collection, user.uid);
     
@@ -70,9 +97,10 @@ export const cadastrarUsuario = async (email, senha, dadosAdicionais, tipo) => {
 // Função para fazer login
 export const logarUsuario = async (email, senha) => {
   try {
+    await initFirebase();
     console.log('Tentando login para:', email);
     
-    const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+    const userCredential = await auth.signInWithEmailAndPassword(email, senha);
     const user = userCredential.user;
     
     console.log('Login bem-sucedido, UID:', user.uid);
@@ -82,8 +110,8 @@ export const logarUsuario = async (email, senha) => {
     
     // Verificar se é aluno
     try {
-      const alunoDoc = await getDoc(doc(db, 'alunos', user.uid));
-      if (alunoDoc.exists()) {
+      const alunoDoc = await db.collection('alunos').doc(user.uid).get();
+      if (alunoDoc.exists) {
         userData = { ...alunoDoc.data(), tipo: 'aluno' };
         console.log('Dados do aluno encontrados:', userData);
       }
@@ -94,8 +122,8 @@ export const logarUsuario = async (email, senha) => {
     // Se não é aluno, verificar se é empresa
     if (!userData) {
       try {
-        const empresaDoc = await getDoc(doc(db, 'empresas', user.uid));
-        if (empresaDoc.exists()) {
+        const empresaDoc = await db.collection('empresas').doc(user.uid).get();
+        if (empresaDoc.exists) {
           userData = { ...empresaDoc.data(), tipo: 'empresa' };
           console.log('Dados da empresa encontrados:', userData);
         }
@@ -143,7 +171,8 @@ export const logarUsuario = async (email, senha) => {
 // Função para logout
 export const deslogarUsuario = async () => {
   try {
-    await signOut(auth);
+    await initFirebase();
+    await auth.signOut();
     localStorage.removeItem('alunoLogado');
     localStorage.removeItem('empresaLogada');
     return { success: true };
@@ -155,8 +184,9 @@ export const deslogarUsuario = async () => {
 
 // Função para verificar estado de autenticação
 export const verificarAutenticacao = () => {
-  return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+  return new Promise(async (resolve) => {
+    await initFirebase();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       unsubscribe();
       resolve(user);
     });
@@ -166,10 +196,11 @@ export const verificarAutenticacao = () => {
 // Função para buscar dados do usuário
 export const buscarDadosUsuario = async (uid, tipo) => {
   try {
-    const docRef = doc(db, tipo === 'aluno' ? 'alunos' : 'empresas', uid);
-    const docSnap = await getDoc(docRef);
+    await initFirebase();
+    const docRef = db.collection(tipo === 'aluno' ? 'alunos' : 'empresas').doc(uid);
+    const docSnap = await docRef.get();
     
-    if (docSnap.exists()) {
+    if (docSnap.exists) {
       return { success: true, data: docSnap.data() };
     } else {
       return { success: false, error: 'Usuário não encontrado' };
@@ -183,8 +214,9 @@ export const buscarDadosUsuario = async (uid, tipo) => {
 // Função para atualizar dados do usuário
 export const atualizarDadosUsuario = async (uid, tipo, dadosAtualizados) => {
   try {
-    const docRef = doc(db, tipo === 'aluno' ? 'alunos' : 'empresas', uid);
-    await updateDoc(docRef, dadosAtualizados);
+    await initFirebase();
+    const docRef = db.collection(tipo === 'aluno' ? 'alunos' : 'empresas').doc(uid);
+    await docRef.update(dadosAtualizados);
     return { success: true };
   } catch (error) {
     console.error('Erro ao atualizar dados:', error);
