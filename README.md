@@ -69,7 +69,7 @@ NR10/
 ├── index.html
 ├── login.html
 ├── db.sql
-├── logo2ehc.png
+├── logo2ehctransparente.png
 └── package.json
 
 ---
